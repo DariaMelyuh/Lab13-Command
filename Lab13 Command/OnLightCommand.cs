@@ -6,6 +6,10 @@
 
         public OnLightCommand(Light light)
         {
+            if (light == null)
+            {
+                throw new ArgumentNullException(nameof(light), "Свет не может быть равен null.");
+            }   
             this.light = light;
         }
 

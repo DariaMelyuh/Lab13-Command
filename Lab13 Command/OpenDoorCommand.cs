@@ -6,6 +6,11 @@
 
         public OpenDoorCommand(Door door)
         {
+            if (door == null)
+            {
+                throw new ArgumentNullException(nameof(door), "Дверь не может быть равен null.");
+            }
+
             this.door = door;
         }
 

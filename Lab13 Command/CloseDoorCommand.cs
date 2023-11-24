@@ -6,6 +6,11 @@
 
         public CloseDoorCommand(Door door)
         {
+            if (door == null)
+            {
+                throw new ArgumentNullException(nameof(door), "Дверь не может быть равна null.");
+            }
+
             this.door = door;
         }
 
@@ -13,7 +18,5 @@
         {
             door.Close();
         }
-
-       
     }
 }

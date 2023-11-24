@@ -6,6 +6,11 @@
 
         public OnConditionerCommand(Conditioner conditioner)
         {
+            if (conditioner == null)
+            {
+                throw new ArgumentNullException(nameof(conditioner), "Кондиционер не может быть равен null.");
+            }
+
             this.conditioner = conditioner;
         }
 
