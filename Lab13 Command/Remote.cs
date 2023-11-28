@@ -4,12 +4,12 @@ namespace Lab13_Command
     public class Remote
     {
         private Dictionary<int, ICommand> commands = new Dictionary<int, ICommand>();
-        private Stack<Action> undoAction = new Stack<Action>();
+        private List<ICommand> undoList = new List<ICommand>();
 
-        public void Add(int number, ICommand remult, Action undo)
+        public void Add(int number, ICommand remult, ICommand undo)
         {
             commands.Add(number, remult);
-            undoAction.Push(undo);
+            undoList.Add(undo);
         }
 
         public void Execute(int number)
@@ -27,10 +27,10 @@ namespace Lab13_Command
 
         public void Undo()
         {
-            if (undoAction.Count > 0)
+            if (undoList.Count > 0)
             {
-                Action lastUndo = undoAction.Pop();
-                lastUndo();
+                undoList[undoList.Count - 1].Execute();
+                undoList.RemoveAt(undoList.Count - 1);
             }
             else
             {

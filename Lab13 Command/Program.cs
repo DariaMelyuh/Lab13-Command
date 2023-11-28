@@ -4,27 +4,21 @@ class Program
 {
     static void Main()
     {
-        var remote = new Remote();
-        var conditioner = new Conditioner();
-
-        Console.WriteLine("Команды: ");
-        remote.Add(1, new OnConditionerCommand(conditioner), conditioner.Off);
-        remote.Add(2, new OffConditionerCommand(conditioner), conditioner.On);
-
-        remote.Execute(1); 
-        remote.Execute(2); 
-        Console.WriteLine();
+        Remote remote = new Remote();
+        Conditioner conditioner = new Conditioner();    
+        remote.Add(0, new OnConditionerCommand(conditioner), new OffConditionerCommand(conditioner));
+        remote.Execute(0);
 
         Console.WriteLine("Отмена последнего действия... ");
         remote.Undo();
         Console.WriteLine();
-
-        Console.WriteLine("Отмена последнего действия... ");
-        remote.Undo();
+        
+        Light light = new Light();
+        MultiCommand multiCommand = new MultiCommand(new List<ICommand> {new OnLightCommand(light), new OffLightCommand(light)});
+        multiCommand.Execute();
+        
         Console.WriteLine();
-
-        Console.WriteLine("Отмена последнего действия... ");
-        remote.Undo();
+        ((MultiCommand)multiCommand).Undo();
         Console.ReadLine();
     }
 }

@@ -1,21 +1,27 @@
 ﻿namespace Lab13_Command
 {
-    class MultiCommand : ICommand
+    public class MultiCommand : ICommand
     {
-        private List<ICommand> commandList = new List<ICommand>();
+        private readonly List<ICommand> commandList = new List<ICommand>();
 
         public MultiCommand(List<ICommand> commands)
         {
-            foreach (var command in commands)
-            {
-                commandList.Add(command);
-            }
+            commandList.AddRange(commands);
         }
 
         public void Execute()
         {
-            foreach (var command in commandList)
+            foreach (ICommand command in commandList)
             {
+                command.Execute();
+            }
+        }
+
+        public void Undo()
+        {
+            foreach (ICommand command in commandList)
+            {
+                Console.WriteLine("Отмена последнего действия... ");
                 command.Execute();
             }
         }
