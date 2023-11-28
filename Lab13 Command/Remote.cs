@@ -1,42 +1,41 @@
 ﻿using Lab13_Command;
-
-public class Remote
+namespace Lab13_Command
 {
-    private Dictionary<int, ICommand> commands = new Dictionary<int, ICommand>();
-    private List<ICommand> executed = new List<ICommand>();
-    private List<ICommand> undone = new List<ICommand>();
-
-    public void Add(int number, ICommand execute, ICommand undo)
+    public class Remote
     {
-        var multiCommand = new MultiCommand(new List<ICommand> { execute, undo });
-        commands.Add(number, multiCommand);
-    }
+        private Dictionary<int, ICommand> commands = new Dictionary<int, ICommand>();
+        private Stack<Action> undoAction = new Stack<Action>();
 
-    public void Execute(int number)
-    {
-        if (commands.ContainsKey(number))
+        public void Add(int number, ICommand remult, Action undo)
         {
-            ICommand command = commands[number];
-            command.Execute();
-            executed.Add(command);
+            commands.Add(number, remult);
+            undoAction.Push(undo);
         }
-        else
-        {
-            Console.WriteLine("Кнопка не найдена");
-        }
-    }
 
-    public void Undo()
-    {
-        if (executed.Count > 0)
+        public void Execute(int number)
         {
-            ICommand lastCommand = executed[executed.Count - 1];
-            undone.Add(lastCommand);
-            executed.RemoveAt(executed.Count - 1);
+            if (commands.ContainsKey(number))
+            {
+                ICommand remult = commands[number];
+                remult.Execute();
+            }
+            else
+            {
+                Console.WriteLine("Кнопка не найдена");
+            }
         }
-        else
+
+        public void Undo()
         {
-            Console.WriteLine("Нет выполненных команд для отмены");
+            if (undoAction.Count > 0)
+            {
+                Action lastUndo = undoAction.Pop();
+                lastUndo();
+            }
+            else
+            {
+                Console.WriteLine("Нет выполненных команд для отмены");
+            }
         }
     }
 }
