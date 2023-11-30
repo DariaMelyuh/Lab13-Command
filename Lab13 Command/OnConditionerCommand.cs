@@ -2,7 +2,7 @@
 {
     public class OnConditionerCommand : ICommand
     {
-        private Conditioner conditioner;
+        private Conditioner _conditioner;
 
         public OnConditionerCommand(Conditioner conditioner)
         {
@@ -11,12 +11,12 @@
                 throw new ArgumentNullException(nameof(conditioner), "Кондиционер не может быть равен null.");
             }
 
-            this.conditioner = conditioner;
+            this._conditioner = conditioner;
         }
 
         public void Execute()
         {
-            conditioner.On();
+            _conditioner.On();
         }
     }
 }

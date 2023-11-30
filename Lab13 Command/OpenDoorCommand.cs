@@ -2,7 +2,7 @@
 {
     class OpenDoorCommand : ICommand
     {
-        private Door door;
+        private Door _door;
 
         public OpenDoorCommand(Door door)
         {
@@ -11,12 +11,12 @@
                 throw new ArgumentNullException(nameof(door), "Дверь не может быть равен null.");
             }
 
-            this.door = door;
+            this._door = door;
         }
 
         public void Execute()
         {
-            door.Open();
+            _door.Open();
         }
     }
 }

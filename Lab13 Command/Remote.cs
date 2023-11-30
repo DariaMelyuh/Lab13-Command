@@ -4,12 +4,12 @@ namespace Lab13_Command
     public class Remote
     {
         private Dictionary<int, ICommand> commands = new Dictionary<int, ICommand>();
-        private List<ICommand> undoList = new List<ICommand>();
+        private Stack<ICommand> undoStack = new Stack<ICommand>();
 
         public void Add(int number, ICommand remult, ICommand undo)
         {
             commands.Add(number, remult);
-            undoList.Add(undo);
+            undoStack.Push(undo);
         }
 
         public void Execute(int number)
@@ -21,16 +21,17 @@ namespace Lab13_Command
             }
             else
             {
-                Console.WriteLine("Кнопка не найдена");
+                throw new ArgumentException("Кнопка не найдена", nameof(number));
             }
         }
 
         public void Undo()
         {
-            if (undoList.Count > 0)
+            if (undoStack.Count > 0)
             {
-                undoList[undoList.Count - 1].Execute();
-                undoList.RemoveAt(undoList.Count - 1);
+                
+                ICommand command = undoStack.Pop();
+                command.Execute();
             }
             else
             {

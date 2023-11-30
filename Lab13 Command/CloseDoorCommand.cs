@@ -2,7 +2,7 @@
 {
     class CloseDoorCommand : ICommand
     {
-        private Door door;
+        private Door _door;
 
         public CloseDoorCommand(Door door)
         {
@@ -11,12 +11,12 @@
                 throw new ArgumentNullException(nameof(door), "Дверь не может быть равна null.");
             }
 
-            this.door = door;
+            this._door = door;
         }
 
         public void Execute()
         {
-            door.Close();
+            _door.Close();
         }
     }
 }

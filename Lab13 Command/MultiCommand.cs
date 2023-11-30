@@ -2,28 +2,20 @@
 {
     public class MultiCommand : ICommand
     {
-        private readonly List<ICommand> commandList = new List<ICommand>();
+        private readonly List<ICommand> _commandList = new List<ICommand>();
 
-        public MultiCommand(List<ICommand> commands)
+        public MultiCommand( List<ICommand> command)
         {
-            commandList.AddRange(commands);
+           _commandList.AddRange(command);
         }
 
         public void Execute()
         {
-            foreach (ICommand command in commandList)
+            foreach (ICommand command in _commandList)
             {
                 command.Execute();
             }
-        }
-
-        public void Undo()
-        {
-            foreach (ICommand command in commandList)
-            {
-                Console.WriteLine("Отмена последнего действия... ");
-                command.Execute();
-            }
+            
         }
     }
 }
